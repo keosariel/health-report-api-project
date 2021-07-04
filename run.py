@@ -3,7 +3,8 @@ from app.helpers import get_http_exception_handler
 
 # Override the HTTP exception handler.
 app.handle_http_exception = get_http_exception_handler(app)
-
+with app.app_context():
+    create_db()
 if __name__ == "__main__":
     with app.app_context():
         create_db()
