@@ -1,8 +1,0 @@
-flask==1.1.2
-flask_sqlalchemy
-flask_bcrypt
-flask_caching
-flask_script
-flask_migrate
-flask_jsonvalidator
-pyjwt
