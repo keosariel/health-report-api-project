@@ -69,6 +69,7 @@ class User(db.Model):
                 "bio": self.description,
                 "profile_photo": self.profile_photo,
                 "joined": self.created_at,
+                "is_doctor": self.is_doctor,
             }
 
         return _dict
