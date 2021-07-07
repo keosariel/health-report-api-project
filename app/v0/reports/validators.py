@@ -6,5 +6,6 @@ from flask_jsonvalidator import (
 class ReportValidator(JSONValidator):
     validators = {
         "content" : StringValidator(nullable=False),
+        "title" : StringValidator(nullable=False),
     }
     

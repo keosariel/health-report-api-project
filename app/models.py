@@ -73,12 +73,12 @@ class User(db.Model):
             }
 
             if flag == 1:
-                _all_reports = [ r.to_dict() for r in Report.query.order_by(Report.id.desc()).all() ]
-                _dict["all_reports"] = _all_reports
-
                 if self.is_doctor:
                     _replies = [r.to_dict() for r in self.replies if not r.deleted]
                     _dict["replies"] = _replies
+                    _all_reports = [ r.to_dict() for r in Report.query.order_by(Report.id.desc()).all() ]
+                    _dict["all_reports"] = _all_reports
+
                 else:
                     _reports = [r.to_dict() for r in self.reports if not r.deleted]
                     _dict["reports"] = _reports
@@ -149,6 +149,7 @@ class Report(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     public_id = db.Column(db.Text, nullable=True, unique=True)
+    title = db.Column(db.Text, nullable=True)
     content = db.Column(db.Text, nullable=True)
     has_replies = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -163,9 +164,10 @@ class Report(db.Model):
     replies = db.relationship('Reply', order_by='Reply.id',
                             backref='report', lazy=True)
 
-    def __init__(self, content, user_id):
+    def __init__(self, title, content, user_id):
         self.user_id = user_id
         self.content = content
+        self.title   = title
 
     def set_public_id(self):
         """Sets a Public ID for Link"""
@@ -182,6 +184,7 @@ class Report(db.Model):
 
             _dict = {
                 "public_id": self.public_id,
+                "title": self.title,
                 "content": self.content,
                 "replies" : _replies,
                 "created_at": self.created_at,

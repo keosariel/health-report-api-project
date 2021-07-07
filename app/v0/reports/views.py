@@ -55,9 +55,11 @@ class ReportView(MethodView):
 
         with current_app.app_context():
             content = json_data.content.strip()
+            title   = json_data.title.strip()
 
             item = Report(
                 content=content,
+                title=title,
                 user_id=current_user_id,
             ) 
 
@@ -93,12 +95,14 @@ class ReportView(MethodView):
 
         with current_app.app_context():
             content = json_data.content.strip()
+            title   = json_data.title.strip()
 
             item = Report.query.filter_by(public_id=public_id).first()
 
             if item:
                 if item.user_id == current_user_id:
                     item.content = content
+                    item.title   = title
 
                     item.save()
 
