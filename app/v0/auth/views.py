@@ -23,7 +23,7 @@ class LoginView(MethodView):
                     if user:
                         res = (
                             response_data(
-                                {"islogged_in": True, "public_id": user.public_id}
+                                {"islogged_in": True, "user": user.to_dict(flag=1)}
                             )
                         )
                         return res
@@ -33,7 +33,7 @@ class LoginView(MethodView):
 
         res = (
             response_data(
-                {"islogged_in": False, "public_id": None}
+                {"islogged_in": False, "user": None}
             )
         )
 
@@ -62,7 +62,7 @@ class LoginView(MethodView):
                     res = (
                         response_data(
                             {"access_token": access_token,
-                                "public_id": user.public_id}
+                                "user": user.to_dict(flag=1)}
                         )
                     )
 
@@ -118,7 +118,7 @@ class RegisterView(MethodView):
 
             res = (
                 response_data(
-                    {"access_token": access_token, "public_id": user.public_id}
+                    {"access_token": access_token, "user": user.to_dict(flag=1)}
                 )
             )
 
