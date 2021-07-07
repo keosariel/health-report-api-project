@@ -65,12 +65,25 @@ class User(db.Model):
             _dict = {
                 "public_id": self.public_id,
                 "name": self.name,
-                "email": self.email if flag == 0 else None,
+                "email": None,
                 "bio": self.description,
                 "profile_photo": self.profile_photo,
                 "joined": self.created_at,
                 "is_doctor": self.is_doctor,
             }
+
+            if flag == 1:
+                _all_reports = [ r.to_dict() for r in Report.query.order_by(Report.id.desc()).all() ]
+                _dict["all_reports"] = _all_reports
+
+                if self.is_doctor:
+                    _replies = [r.to_dict() for r in self.replies if not r.deleted]
+                    _dict["replies"] = _replies
+                else:
+                    _reports = [r.to_dict() for r in self.reports if not r.deleted]
+                    _dict["reports"] = _reports
+
+                _dict["email"]   = self.email
 
         return _dict
 
@@ -172,7 +185,7 @@ class Report(db.Model):
                 "content": self.content,
                 "replies" : _replies,
                 "created_at": self.created_at,
-                "author"   : self.author.to_dict(flag=1)
+                "author"   : self.author.to_dict()
             }
 
         return _dict
@@ -224,7 +237,8 @@ class Reply(db.Model):
                 "public_id": self.public_id,
                 "content": self.content,
                 "created_at": self.created_at,
-                "author"   : self.author.to_dict(flag=1)
+                "author"   : self.author.to_dict(),
+                "replied": self.report.public_id
             }
 
         return _dict

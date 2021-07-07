@@ -125,7 +125,7 @@ class UserView(MethodView):
             if user:
                 res = (
                     response_data(
-                        user.to_dict()
+                        user.to_dict(flag=1)
                     )
                 )
 
