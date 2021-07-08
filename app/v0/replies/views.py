@@ -73,7 +73,8 @@ class ReplyView(MethodView):
                 )
 
                 return res
-
+            
+            '''
             if not user.is_doctor:
                 # E020 = User cannot reply to report (User is not a doctor)
                 res = response_data(
@@ -82,6 +83,7 @@ class ReplyView(MethodView):
                 )
 
                 return res
+            '''
 
             item = Reply(
                 content=content,
